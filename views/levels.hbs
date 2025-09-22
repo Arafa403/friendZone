@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/Screenshot%202025-09-07%20044718.png">
+
+    <title>مستويات تمارين الجيم</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 2.8rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .levels {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .level-btn {
+            padding: 18px 40px;
+            border-radius: 20px;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+            min-width: 140px;
+        }
+
+        .level-btn:hover,
+        .level-btn:focus {
+            background-color: #fff;
+            color: #764ba2;
+            outline: none;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 25px 20px;
+            background-color: #2c2f4a;
+            width: 100%;
+            color: #ddd;
+            text-align: center;
+            user-select: none;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+
+        .linkedin-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 30px;
+            background-color: #0a66c2;
+            color: white;
+            font-weight: 700;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.6);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+        }
+
+        .linkedin-btn:hover,
+        .linkedin-btn:focus {
+            background-color: #004182;
+            box-shadow: 0 6px 18px rgba(0, 65, 130, 0.8);
+            outline: none;
+        }
+
+        /* زر العودة للصفحة الرئيسية */
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1rem;
+            user-select: none;
+            z-index: 1000;
+        }
+
+        .home-button:hover,
+        .home-button:focus {
+            background: rgba(255, 255, 255, 0.45);
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="home-button" onclick="window.location.href='/'">العودة للصفحة الرئيسية</button>
+
+    <h1>اختر مستوى التمرين</h1>
+    <div class="levels">
+        <button class="level-btn" type="button" onclick="window.location.href='/exercises-one'">مبتدئ</button>
+        <button class="level-btn" type="button" onclick="window.location.href='/exercises-two'">متوسط</button>
+        <button class="level-btn" type="button" onclick="window.location.href='/exercises-three'">متقدم</button>
+    </div>
+
+    <footer>
+        <p>تم تصميم الموقع بواسطة عرفه محمد</p>
+        <a href="https://linkedin.com/in/arafa-mohamed-8015a3374" target="_blank" rel="noopener noreferrer"
+            class="linkedin-btn">
+            تابعني على لينكدإن
+        </a>
+    </footer>
+</body>
+
+</html>

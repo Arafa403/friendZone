@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/Screenshot%202025-09-07%20044718.png">
+
+    <title>تمرين Proper Crunches</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            max-width: 420px;
+            width: 100%;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 2.4rem;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .info {
+            margin: 15px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        .info:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            background: #000;
+        }
+
+        /* زر العودة */
+        .back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        /* زر ابدأ التمرين */
+        #startBtn {
+            font-size: 1.4rem;
+            padding: 12px 25px;
+            margin-top: 25px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            background-color: #764ba2;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.7);
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+
+        #startBtn:hover {
+            background-color: #5a357d;
+        }
+
+        .timer {
+            margin-top: 30px;
+            user-select: none;
+        }
+
+        .timer h2 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .timer p {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="back-button" onclick="history.back()">عودة</button>
+        <h1>تمرين Proper Crunches</h1>
+        <div class="info">عدد المجموعات: {{sets}}</div>
+        <div class="info">عدد التكرارات في كل مجموعة: {{reps}}</div>
+        <div class="info">الراحة بين المجموعات: {{rest}} ثواني</div>
+
+        <video id="exerciseVideo" loop muted playsinline>
+            <source src="{{videoSrc}}" type="video/mp4" />
+            متصفحك لا يدعم عرض الفيديو.
+        </video>
+
+        <div class="timer">
+            <h2 id="status">اضغط ابدأ لبدء التمرين</h2>
+            <p id="countdown">{{reps}}</p>
+        </div>
+
+        <button id="startBtn">ابدأ التمرين</button>
+
+        <!-- أصوات التنبيه -->
+        <audio id="startBeep" src="/images/videos/ppTULCyPfdk.mp3" preload="auto"></audio>
+        <audio id="endBeep" src="/images/videos/EgsBEw_khMk.mp3" preload="auto"></audio>
+
+        <script>
+            const sets = {{ sets }};
+            const repsPerSet = {{ reps }};
+            const restDuration = {{ rest }};
+
+            let currentSet = 1;
+            let currentRep = repsPerSet;
+            let isResting = false;
+            let timerInterval;
+
+            const statusEl = document.getElementById('status');
+            const countdownEl = document.getElementById('countdown');
+            const startBeep = document.getElementById('startBeep');
+            const endBeep = document.getElementById('endBeep');
+            const video = document.getElementById('exerciseVideo');
+            const startBtn = document.getElementById('startBtn');
+
+            function updateTimer() {
+                countdownEl.textContent = currentRep;
+
+                if (currentRep === 0) {
+                    if (!isResting) {
+                        // نهاية مجموعة تمرين
+                        if (currentSet === sets) {
+                            statusEl.textContent = "انتهى التمرين!";
+                            endBeep.play();
+                            clearInterval(timerInterval);
+                            video.pause();
+                            startBtn.style.display = "inline-block"; // عرض زر ابدأ مجدداً
+                            return;
+                        } else {
+                            isResting = true;
+                            currentRep = restDuration;
+                            statusEl.textContent = `راحة لمدة ${restDuration} ثواني قبل المجموعة ${currentSet + 1}`;
+                            video.pause();
+                        }
+                    } else {
+                        // نهاية فترة الراحة
+                        isResting = false;
+                        currentSet++;
+                        currentRep = repsPerSet;
+                        statusEl.textContent = `المجموعة ${currentSet} - تمرين جاري`;
+                        startBeep.play();
+                        video.play();
+                    }
+                } else {
+                    if (isResting) {
+                        countdownEl.textContent = currentRep;
+                    }
+                    currentRep--;
+                }
+            }
+
+            startBtn.addEventListener('click', () => {
+                startBtn.style.display = 'none';
+                statusEl.textContent = `المجموعة ${currentSet} - تمرين جاري`;
+                countdownEl.textContent = currentRep;
+                startBeep.play();
+                video.play();
+
+                timerInterval = setInterval(() => {
+                    updateTimer();
+                }, 1000);
+            });
+        </script>
+    </div>
+</body>
+
+</html>
